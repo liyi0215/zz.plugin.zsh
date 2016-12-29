@@ -16,6 +16,7 @@ zz_print_usage(){
 cat <<- EOF
 Commands:
     add <name> <value>
+    add! <name> <value> Overwrites existing key value
     rm <name>
     list
     copy <name>         Copy value from give name
@@ -65,6 +66,7 @@ zz_add(){
         zz_print_msg success "eg: zz add key value"
     elif [[ -z ${keys[$name]} ]] || $force
     then
+        zz_remove $name > /dev/null
         printf "%q:%s\n" "${name}" "${token}" >> $ZZ_CONFIG
         zz_print_msg success "Key Value added"
     else
@@ -72,7 +74,24 @@ zz_add(){
     fi
 }
 zz_remove(){
-    echo "1:"$1"_2:"$2
+    local key=$1
+
+    if [[ -n ${keys[$key]} ]]
+    then
+        local configb=$ZZ_CONFIG.tmp
+        if sed "/^${key}:.*$/d" $ZZ_CONFIG > $configb  && mv $configb $ZZ_CONFIG
+        then
+            zz_print_msg success "${key} removed"
+        else
+            zz_print_msg fail "Something Wrong."
+        fi
+    else
+        zz_print_msg fail "Key '${key}' was not found"
+    fi
+}
+
+zz_copy(){
+
 }
 
 zz_list(){
@@ -150,11 +169,11 @@ else
                 zz_add true $2 $3
                 break
                 ;;
-            -r|--remove|rm)
+            -r|remove|rm)
                 zz_remove $2
                 break
                 ;;
-            -l|list)
+            -l|list|ls)
                 zz_list
                 break
                 ;;
