@@ -70,14 +70,6 @@ zz_add(){
         printf "%q:%s\n" "${name}" "${token}" >> $ZZ_CONFIG
         zz_print_msg success "Key Value added"
     else
-        # echo "Key '${name}' already exists. overwrite(y/n):"
-        # # read
-        # if [[ $REPLY == "y" || $REPLY == "yes" ]]
-        # then
-        #     zz_add true $name $token
-        # else
-        #     zz_print_msg fail "Input Error."
-        # fi
         zz_add_ow true $name $token
     fi
 }
