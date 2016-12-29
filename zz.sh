@@ -193,10 +193,6 @@ else
                 zz_add false $2 $3
                 break
                 ;;
-            -a!|--add!|add!)
-                zz_add true $2 $3
-                break
-                ;;
             -r|remove|rm)
                 zz_remove $2
                 break
@@ -225,8 +221,10 @@ else
 fi
 
 unset zz_add
+unset zz_add_ow
 unset zz_remove
 unset zz_list
 unset zz_print_msg
 unset zz_print_usage
 unset zz_copy
+unset keys
