@@ -15,11 +15,10 @@ readonly ZZ_NOC="\033[m"
 zz_print_usage(){
 cat <<- EOF
 Commands:
-    add <name> <value>
-    add! <name> <value> Overwrites existing key value
-    rm <name>
-    list
-    copy <name>         Copy value from give name
+    -a add <name> <value>
+    -r rm <name>
+    -l list
+    -c copy <name>         Copy value from give name
 
 Specify configs in the ini-formatted file:
     $HOME/.zzrc
