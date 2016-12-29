@@ -81,17 +81,29 @@ zz_remove(){
         local configb=$ZZ_CONFIG.tmp
         if sed "/^${key}:.*$/d" $ZZ_CONFIG > $configb  && mv $configb $ZZ_CONFIG
         then
-            zz_print_msg success "${key} removed"
+            zz_print_msg success "${key} removed."
         else
             zz_print_msg fail "Something Wrong."
         fi
     else
-        zz_print_msg fail "Key '${key}' was not found"
+        zz_print_msg fail "Key '${key}' was not found."
     fi
 }
 
 zz_copy(){
+    local key=$1
 
+    if [[ -n ${keys[$key]} ]]
+    then
+        if sed -n "s/${key}:\(.*\)/\1/pg" $ZZ_CONFIG | tr -d "\n" | pbcopy
+        then
+            print "\033[7;30;42m Already Copied \033[0m"
+        else
+            zz_print_msg fail "Something Wrong."
+        fi
+    else
+        zz_print_msg fail "Key '${key}' was not found."
+    fi
 }
 
 zz_list(){
@@ -109,7 +121,6 @@ zz_list(){
             max_warp_point_length=$length
         fi
     done <<< $entries
-
     while IFS= read -r line
     do
         if [[ $line != "" ]]
@@ -182,7 +193,7 @@ else
                 break
                 ;;
             -c|--copy|copy)
-                zz_copy $1
+                zz_copy $2
                 break
                 ;;
             *)
@@ -195,8 +206,10 @@ else
         esac
     done
 fi
+
 unset zz_add
 unset zz_remove
 unset zz_list
 unset zz_print_msg
 unset zz_print_usage
+unset zz_copy
