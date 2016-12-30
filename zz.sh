@@ -111,9 +111,10 @@ zz_copy(){
 
     if [[ -n ${keys[$key]} ]]
     then
-        if sed -n "s/${key}:\(.*\)/\1/pg" $ZZ_CONFIG | tr -d "\n" | pbcopy
+        if local value=`sed -n "s/${key}:\(.*\)/\1/pg" $ZZ_CONFIG`
         then
-            print "\033[7;30;42m Already Copied \033[0m"
+            echo $value | tr -d "\n" | pbcopy
+            print "Already Copied:\033[32m ${value}\033[0m"
         else
             zz_print_msg fail "Something Wrong."
         fi
@@ -145,8 +146,8 @@ zz_list(){
             key=${arr[1]}
             val=${arr[2]}
 
-            printf "\033[7;30;$(($RANDOM%5+42))m %${max_warp_point_length}s  ->  %s" $key $val
-            printf "\033[0m\n"
+            printf "\e[$(($RANDOM%7+31))m %${max_warp_point_length}s  ->  %s" $key $val
+            printf "\e[0m\n"
         fi
     done <<< $entries
 }
