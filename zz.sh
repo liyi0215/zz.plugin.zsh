@@ -21,7 +21,7 @@ Commands:
     -c copy <name>         Copy value from give name
 
 Specify configs in the ini-formatted file:
-    $HOME/.zzrc
+    $ZZ_CONFIG
 EOF
 }
 
@@ -172,6 +172,8 @@ do
     keys[$key]=$val
 done < $ZZ_CONFIG
 
+# get opts
+args=$(getopt -o a:r:c:lhs -l add:,rm:,clean\!,list,ls:,path:,help,show -- $*)
 
 # check if no arguments were given, and that version is not set
 if [[ ($? -ne 0 || $#* -eq 0) ]]
@@ -210,7 +212,7 @@ else
                 break
                 ;;
             *)
-                zz_warp $o
+                zz_print_msg fail "Unknown command $1"
                 break
                 ;;
             --)
@@ -228,3 +230,4 @@ unset zz_print_msg
 unset zz_print_usage
 unset zz_copy
 unset keys
+unset args
