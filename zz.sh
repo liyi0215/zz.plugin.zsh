@@ -146,7 +146,7 @@ zz_list(){
             key=${arr[1]}
             val=${arr[2]}
 
-            printf "\e[$(($RANDOM%7+31))m %${max_warp_point_length}s  ->  %s" $key $val
+            printf "\e[$(($RANDOM%7+31))m %${max_warp_point_length}s -> %s" $key $val
             printf "\e[0m\n"
         fi
     done <<< $entries
