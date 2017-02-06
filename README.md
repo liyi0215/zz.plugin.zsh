@@ -6,3 +6,5 @@
 vim .zshrc
 ```
 modify plugins=(..... zz)
+
+copy功能不支持Linux
